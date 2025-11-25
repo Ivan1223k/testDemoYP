@@ -4,13 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:testDemoYP.pagesFr"
-      mc:Ignorable="d" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d"    
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Товары"      
       FontSize="14"
       FontFamily="TimesNewRoman"
       Background="{StaticResource PrimaryBackground}">
+    
 
+    
+    
     <Grid Margin="10" Background="{StaticResource PrimaryBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -54,24 +58,23 @@
             </StackPanel>
         </Border>
         
+        
         <ListView Name="ProductsListView" Grid.Row="1" HorizontalContentAlignment="Stretch" 
           ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource PrimaryBackground}"
-          BorderThickness="0" d:ItemsSource="{d:SampleData ItemCount=5}">
+          BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="LightGray" BorderThickness="1" 
-                    Background="{StaticResource PrimaryBackground}" Margin="2" Padding="10" CornerRadius="5">
-                        <Grid Width="Auto" MinWidth="280">
+                    <Border BorderBrush="LightGray" BorderThickness="1" Background="{StaticResource PrimaryBackground}" Margin="2" Padding="10" CornerRadius="5">
+                        <Grid MinWidth="280">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.35*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Фото товара -->
-                            <Border Grid.Column="0" 
-                            BorderBrush="LightGray" BorderThickness="1" 
-                            Margin="0,0,10,0" Background="White" Width="150" Height="150">
-                                <Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!-- Фото -->
+                            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="0,0,10,0" Background="White" Height="150">
+                                <Image Stretch="Uniform">
                                     <Image.Source>
                                         <Binding Path="Photo">
                                             <Binding.TargetNullValue>
@@ -82,39 +85,39 @@
                                 </Image>
                             </Border>
 
-                            <!-- Информация о товаре -->
-                            <StackPanel Grid.Column="1" Orientation="Vertical">
-                                
-                                <TextBlock Text="{Binding Category1.CategoryName, StringFormat={}Категория товара | {0}}" 
-                                   FontSize="12" Margin="0,0,0,2"/>
-
-                                <TextBlock Text="{Binding Title1.TitleName}" 
-                                   FontSize="14" FontWeight="Bold" TextWrapping="Wrap" 
-                                   Margin="0,5,0,5"/>
-
-                                <TextBlock Text="{Binding Description, StringFormat={}Описание товара: {0}}" 
-                                   FontSize="11" Margin="0,0,0,1"/>
-
-                                <TextBlock Text="{Binding Manufacturer1.ManufacturerName, StringFormat={}Производитель: {0}}" 
-                                   FontSize="11" Margin="0,0,0,1"/>
-
-                                <TextBlock Text="{Binding Postavchick.SupplierName, StringFormat={}Поставщик: {0}}"
-                                   FontSize="11" Margin="0,0,0,1"/>
-
-                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0} руб.}" 
-                                   FontSize="12" Foreground="DarkRed" FontWeight="Bold"
-                                   Margin="0,2,0,1"/>
-
-                                <TextBlock Text="{Binding Edinica, StringFormat={}Единица измерения: {0}}" 
-                                   FontSize="11" Margin="0,0,0,1"/>
-
-                                <TextBlock Text="{Binding CountOnSklad, StringFormat={}Количество на складе: {0}}" 
-                                   FontSize="11"  Margin="0,0,0,0"/>
+                            <!-- Информация -->
+                            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,0,10,0">
+                                <TextBlock Text="{Binding Category1.CategoryName, StringFormat={}Категория товара | {0}}" FontSize="12" Margin="0,0,0,2"/>
+                                <TextBlock Text="{Binding Title1.TitleName}" FontSize="14" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,5"/>
+                                <TextBlock Text="{Binding Description, StringFormat={}Описание товара: {0}}" FontSize="11"/>
+                                <TextBlock Text="{Binding Manufacturer1.ManufacturerName, StringFormat={}Производитель: {0}}" FontSize="11"/>
+                                <TextBlock Text="{Binding Postavchick.SupplierName, StringFormat={}Поставщик: {0}}" FontSize="11"/>
+                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0} руб.}" FontSize="12" Foreground="DarkRed" FontWeight="Bold" Margin="0,2,0,0"/>
+                                <TextBlock Text="{Binding Edinica, StringFormat={}Единица измерения: {0}}" FontSize="11"/>
+                                <TextBlock Text="{Binding CountOnSklad, StringFormat={}Количество на складе: {0}}" FontSize="11"/>
                             </StackPanel>
+
+                            <Border Grid.Column="2" Padding="5" CornerRadius="3" VerticalAlignment="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sale}">
+                                                <DataTrigger.Value>
+                                                    <sys:Decimal>15</sys:Decimal>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Background" Value="#2E8B57"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Text="{Binding Sale, StringFormat={}Действующая скидка: {0}%}" FontSize="11" FontWeight="SemiBold" Foreground="DarkRed" TextAlignment="Center"/>
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
     </Grid>
 </Page>
