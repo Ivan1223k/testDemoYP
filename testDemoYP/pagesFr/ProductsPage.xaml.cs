@@ -23,45 +23,77 @@ namespace testDemoYP.pagesFr
         private bool _enableSearch;
         private bool _enableSort;
         private bool _enableFilter;
+        private bool _isAdminMode;
         private List<Tovar> _currentProducts;
 
-        public ProductsPage(bool enableSearch, bool enableSort, bool enableFilter)
+        public ProductsPage(bool enableSearch, bool enableSort, bool enableFilter, bool isAdminMode = false)
         {
             InitializeComponent();
             _enableSearch = enableSearch;
             _enableSort = enableSort;
             _enableFilter = enableFilter;
+            _isAdminMode = isAdminMode;
 
             InitializeControls();
             LoadProducts();
         }
 
+        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AuthPage());
+        }
+
         private void InitializeControls()
         {
-            // Полностью скрываем панель управления для клиента
+            // Скрываем кнопку выхода в Border для администратора
+            if (_isAdminMode)
+            {
+                LogoutBtn.Visibility = Visibility.Collapsed;
+            }
+
+            // Для клиента и гостя блокируем доступ к фильтрам, но оставляем панель видимой
             if (!_enableSearch && !_enableSort && !_enableFilter)
             {
-                ControlsPanel.Visibility = Visibility.Collapsed;
+                SearchTextBox.IsEnabled = false;
+                SortComboBox.IsEnabled = false;
+                FilterComboBox.IsEnabled = false;
+                ClearFiltersButton.IsEnabled = false;
+
+                // Делаем элементы полупрозрачными для визуального обозначения блокировки
+                SearchTextBox.Opacity = 0.5;
+                SortComboBox.Opacity = 0.5;
+                FilterComboBox.Opacity = 0.5;
+                ClearFiltersButton.Opacity = 0.5;
+
+                // Добавляем подсказку
+                SearchTextBox.ToolTip = "Функция поиска недоступна для вашей роли";
+                SortComboBox.ToolTip = "Функция сортировки недоступна для вашей роли";
+                FilterComboBox.ToolTip = "Функция фильтрации недоступна для вашей роли";
+                ClearFiltersButton.ToolTip = "Функция очистки фильтров недоступна для вашей роли";
+
                 return;
             }
 
             // Для менеджера/админа настраиваем доступные функции
             if (!_enableSearch)
             {
-                var searchPanel = (StackPanel)SearchTextBox.Parent;
-                searchPanel.Visibility = Visibility.Collapsed;
+                SearchTextBox.IsEnabled = false;
+                SearchTextBox.Opacity = 0.5;
+                SearchTextBox.ToolTip = "Функция поиска недоступна";
             }
 
             if (!_enableSort)
             {
-                var sortPanel = (StackPanel)SortComboBox.Parent;
-                sortPanel.Visibility = Visibility.Collapsed;
+                SortComboBox.IsEnabled = false;
+                SortComboBox.Opacity = 0.5;
+                SortComboBox.ToolTip = "Функция сортировки недоступна";
             }
 
             if (!_enableFilter)
             {
-                var filterPanel = (StackPanel)FilterComboBox.Parent;
-                filterPanel.Visibility = Visibility.Collapsed;
+                FilterComboBox.IsEnabled = false;
+                FilterComboBox.Opacity = 0.5;
+                FilterComboBox.ToolTip = "Функция фильтрации недоступна";
             }
 
             // Заполняем фильтры категорий (только если разрешено)
@@ -75,6 +107,11 @@ namespace testDemoYP.pagesFr
                 }
                 FilterComboBox.SelectedIndex = 0;
             }
+            else
+            {
+                FilterComboBox.Items.Add("Все категории");
+                FilterComboBox.SelectedIndex = 0;
+            }
 
             // Устанавливаем сортировку по умолчанию (только если разрешено)
             if (_enableSort)
@@ -83,6 +120,7 @@ namespace testDemoYP.pagesFr
             }
         }
 
+        // Остальные методы без изменений...
         private void LoadProducts()
         {
             _currentProducts = Entities.GetContext().Tovar.ToList();
@@ -154,7 +192,7 @@ namespace testDemoYP.pagesFr
         {
             if (_enableFilter) UpdateProducts();
         }
-       
+
         private void ClearFiltersButton_Click(object sender, RoutedEventArgs e)
         {
             if (_enableSearch) SearchTextBox.Text = "";

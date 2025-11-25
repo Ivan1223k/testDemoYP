@@ -41,6 +41,7 @@ namespace testDemoYP.pagesFr
                 {
                     switch (userRole.Role_Name)
                     {
+
                         case "Авторизированный клиент":
                             NavigationService.Navigate(new ProductsPage(false, false, false));
                             break;
@@ -64,6 +65,11 @@ namespace testDemoYP.pagesFr
             {
                 MessageBox.Show("Неверный логин или пароль");
             }
+        }
+
+        private void GuestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ProductsPage(false, false, false));
         }
     }
 }

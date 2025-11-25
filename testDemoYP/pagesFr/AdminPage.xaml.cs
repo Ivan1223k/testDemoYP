@@ -23,19 +23,23 @@ namespace testDemoYP.pagesFr
         public AdminPage()
         {
             InitializeComponent();
-            ProductsFrame.Navigate(new ProductsPage(true, true, true));
+            // Передаем true в isAdminMode для скрытия кнопки выхода в Border
+            ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
             LoadOrders();
         }
 
-        private void LoadOrders()
+        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
-            var orders = Entities.GetContext().Order
-                .Include("Status1")
-                .Include("Address")
-                .ToList();
-            OrdersDataGrid.ItemsSource = orders;
+            NavigationService.Navigate(new AuthPage());
         }
 
+        private void LogoutBtn_Click1(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AuthPage());
+        }
+
+
+        // В методах редактирования/добавления также передаем true для isAdminMode
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
             ProductsFrame.Navigate(new AddEditProductPage(null));
@@ -75,7 +79,8 @@ namespace testDemoYP.pagesFr
                         {
                             Entities.GetContext().Tovar.Remove(selectedProduct);
                             Entities.GetContext().SaveChanges();
-                            ProductsFrame.Navigate(new ProductsPage(true, true, true));
+
+                            ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
                             MessageBox.Show("Товар успешно удален");
                         }
                         catch
@@ -89,6 +94,15 @@ namespace testDemoYP.pagesFr
             {
                 MessageBox.Show("Выберите товар для удаления");
             }
+        }
+
+        private void LoadOrders()
+        {
+            var orders = Entities.GetContext().Order
+                .Include("Status1")
+                .Include("Address")
+                .ToList();
+            OrdersDataGrid.ItemsSource = orders;
         }
 
         private void AddOrder_Click(object sender, RoutedEventArgs e)
