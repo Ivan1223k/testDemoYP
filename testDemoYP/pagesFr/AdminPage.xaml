@@ -1,0 +1,59 @@
+﻿<Page x:Class="testDemoYP.pagesFr.AdminPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:testDemoYP.pagesFr"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Панель администратора"
+      FontSize="14"
+      Background="{StaticResource PrimaryBackground}">
+
+    <Grid Background="{StaticResource PrimaryBackground}">
+        <TabControl Background="{StaticResource PrimaryBackground}">
+            <TabItem Header="Товары" Background="{StaticResource SecondaryBackground}">
+                <Grid Background="{StaticResource PrimaryBackground}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                        <Button Content="Добавить товар" Click="AddProduct_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                        <Button Content="Редактировать товар" Click="EditProduct_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                        <Button Content="Удалить товар" Click="DeleteProduct_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                    </StackPanel>
+
+                    <Frame x:Name="ProductsFrame" Grid.Row="1" Background="{StaticResource PrimaryBackground}"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Заказы" Background="{StaticResource SecondaryBackground}">
+                <Grid Background="{StaticResource PrimaryBackground}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                        <Button Content="Добавить заказ" Click="AddOrder_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                        <Button Content="Редактировать заказ" Click="EditOrder_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                        <Button Content="Удалить заказ" Click="DeleteOrder_Click" Margin="0,0,10,0" Background="{StaticResource AccentBrush}"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="OrdersDataGrid" Grid.Row="1" AutoGenerateColumns="False" 
+                              IsReadOnly="True" SelectionMode="Single" Background="{StaticResource PrimaryBackground}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ID_order}" Width="80"/>
+                            <DataGridTextColumn Header="Дата заказа" Binding="{Binding DateOrder, StringFormat={}dd.MM.yyyy}" Width="120"/>
+                            <DataGridTextColumn Header="Дата доставки" Binding="{Binding DateDel, StringFormat={}dd.MM.yyyy}" Width="120"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status1.StatusName}" Width="150"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address.City}" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
