@@ -103,7 +103,7 @@
                                 <TextBlock Text="{Binding Postavchick.SupplierName, StringFormat={}Поставщик: {0}}" FontSize="11"/>
 
                                 <!-- Цена со скидкой -->
-                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                <!--<StackPanel Orientation="Horizontal" Margin="0,2,0,0">
                                     <TextBlock Text="{Binding OriginalPrice, StringFormat={}{0} руб.}" FontSize="12" Foreground="Gray">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -118,7 +118,7 @@
                                     </TextBlock>
                                     <TextBlock Text="{Binding DiscountedPrice, StringFormat={} → {0} руб.}" FontSize="12" Foreground="DarkRed" FontWeight="Bold" 
                                                Margin="5,0,0,0" Visibility="{Binding HasDiscount, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                </StackPanel>
+                                </StackPanel>-->
 
                                 <TextBlock Text="{Binding Edinica, StringFormat={}Единица измерения: {0}}" FontSize="11"/>
                                 <TextBlock Text="{Binding CountOnSklad, StringFormat={}Количество на складе: {0}}" FontSize="11"/>
