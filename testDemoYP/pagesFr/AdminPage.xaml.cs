@@ -20,11 +20,24 @@ namespace testDemoYP.pagesFr
     /// </summary>
     public partial class AdminPage : Page
     {
-        public AdminPage()
+        private string _userName;
+        private string _userRole;
+
+        public AdminPage(string userName = "", string userRole = "")
         {
             InitializeComponent();
-            ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
+            _userName = userName;
+            _userRole = userRole;
+
+            DisplayUserInfo();
+            ProductsFrame.Navigate(new ProductsPage(true, true, true, true, userName, userRole));
             LoadOrders();
+        }
+
+        private void DisplayUserInfo()
+        {
+            UserNameText.Text = _userName;
+            UserRoleText.Text = _userRole;
         }
 
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
@@ -84,7 +97,7 @@ namespace testDemoYP.pagesFr
                         {
                             Entities.GetContext().Tovar.Remove(selectedProduct);
                             Entities.GetContext().SaveChanges();
-                            ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
+                            ProductsFrame.Navigate(new ProductsPage(true, true, true, true, _userName, _userRole));
                             MessageBox.Show("Товар успешно удален");
                         }
                         catch

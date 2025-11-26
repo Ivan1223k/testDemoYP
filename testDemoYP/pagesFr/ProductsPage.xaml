@@ -12,21 +12,27 @@
       Background="{StaticResource PrimaryBackground}">
 
 
+
+
     <Grid Margin="10" Background="{StaticResource PrimaryBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="{StaticResource AccentBrush}" CornerRadius="5" Padding="10" 
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10">
-            <StackPanel Orientation="Vertical">
-                <TextBlock x:Name="UserNameText" Text="" FontWeight="Bold" FontSize="12"/>
-                <TextBlock x:Name="UserRoleText" Text="" FontSize="11"/>
+        <Border Grid.Row="0" x:Name="UserInfoPanel" Background="{StaticResource AccentBrush}" CornerRadius="5" Padding="10" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Margin="0,0,15,0">
+                    <TextBlock x:Name="UserNameText" Text="" FontWeight="Bold" FontSize="12"/>
+                    <TextBlock x:Name="UserRoleText" Text="" FontSize="11"/>
+                </StackPanel>
+                <Button x:Name="LogoutBtn" Content="Выход" Click="LogoutBtn_Click" 
+                        Width="80" Height="30" Background="{StaticResource SecondaryBackground}"/>
             </StackPanel>
         </Border>
 
-        <Border x:Name="ControlsPanel" Grid.Row="0" Background="{StaticResource SecondaryBackground}" CornerRadius="5" Padding="15" Margin="0,0,0,10">
+        <Border x:Name="ControlsPanel" Grid.Row="0" Background="{StaticResource SecondaryBackground}" CornerRadius="5" Padding="15" Margin="0,50,0,10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" Margin="0,0,15,0">
                     <TextBlock Text="Поиск по названию" FontSize="12" Margin="0,0,0,5"/>
@@ -49,8 +55,8 @@
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="0,0,15,0" Visibility="Hidden">
-                    <TextBlock Text="Скидка" FontSize="12" Margin="0,0,0,5" />
+                <StackPanel Orientation="Vertical" Visibility="Hidden">
+                    <TextBlock Text="Скидка" FontSize="12" Margin="0,0,0,5"/>
                     <ComboBox x:Name="DiscountFilterComboBox" Width="150" Height="30" SelectionChanged="DiscountFilterComboBox_SelectionChanged" SelectedIndex="0">
                         <ComboBoxItem Content="Все товары"/>
                         <ComboBoxItem Content="Скидка > 15%"/>
@@ -61,15 +67,12 @@
                     <Button x:Name="ClearFiltersButton" Content="Очистить фильтры" Click="ClearFiltersButton_Click" 
                             Width="130" Height="30" Background="{StaticResource AccentBrush}"/>
                 </StackPanel>
-
-                <Button x:Name="LogoutBtn" Content="Выход" Click="LogoutBtn_Click" VerticalAlignment="Center" Width="80" Height="30" Margin="5,18,0,0" Background="{StaticResource AccentBrush}"/>
-
             </StackPanel>
         </Border>
 
         <ListView Name="ProductsListView" Grid.Row="1" HorizontalContentAlignment="Stretch" 
           ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource PrimaryBackground}"
-          BorderThickness="0">
+          BorderThickness="0" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="10" CornerRadius="5" Background="{Binding BackgroundColor}">
@@ -98,7 +101,25 @@
                                 <TextBlock Text="{Binding Description, StringFormat={}Описание товара: {0}}" FontSize="11"/>
                                 <TextBlock Text="{Binding Manufacturer1.ManufacturerName, StringFormat={}Производитель: {0}}" FontSize="11"/>
                                 <TextBlock Text="{Binding Postavchick.SupplierName, StringFormat={}Поставщик: {0}}" FontSize="11"/>
-                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0} руб.}" FontSize="12" Foreground="DarkRed" FontWeight="Bold" Margin="0,2,0,0"/>
+
+                                <!-- Цена со скидкой -->
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                    <TextBlock Text="{Binding OriginalPrice, StringFormat={}{0} руб.}" FontSize="12" Foreground="Gray">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextDecorations" Value="None"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasDiscount}" Value="True">
+                                                        <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding DiscountedPrice, StringFormat={} → {0} руб.}" FontSize="12" Foreground="DarkRed" FontWeight="Bold" 
+                                               Margin="5,0,0,0" Visibility="{Binding HasDiscount, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </StackPanel>
+
                                 <TextBlock Text="{Binding Edinica, StringFormat={}Единица измерения: {0}}" FontSize="11"/>
                                 <TextBlock Text="{Binding CountOnSklad, StringFormat={}Количество на складе: {0}}" FontSize="11"/>
                             </StackPanel>

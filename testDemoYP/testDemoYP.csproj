@@ -71,6 +71,7 @@
     <Compile Include="Address.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="Category.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

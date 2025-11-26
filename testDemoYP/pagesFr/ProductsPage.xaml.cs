@@ -47,11 +47,18 @@ namespace testDemoYP.pagesFr
 
         private void DisplayUserInfo()
         {
-            UserNameText.Text = _userName;
-            UserRoleText.Text = _userRole;
+            // Для администратора скрываем панель пользователя
+            if (_isAdminMode)
+            {
+                UserInfoPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                UserNameText.Text = _userName;
+                UserRoleText.Text = _userRole;
+            }
         }
 
-        // Остальной код без изменений...
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AuthPage());
@@ -59,12 +66,6 @@ namespace testDemoYP.pagesFr
 
         private void InitializeControls()
         {
-            // Скрываем кнопку выхода в Border для администратора
-            if (_isAdminMode)
-            {
-                LogoutBtn.Visibility = Visibility.Collapsed;
-            }
-
             // Для клиента и гостя блокируем доступ к фильтрам, но оставляем панель видимой
             if (!_enableSearch && !_enableSort && !_enableFilter)
             {
@@ -132,7 +133,6 @@ namespace testDemoYP.pagesFr
             }
         }
 
-        // Остальные методы без изменений...
         private void LoadProducts()
         {
             _allProducts = Entities.GetContext().Tovar.ToList();
@@ -176,14 +176,12 @@ namespace testDemoYP.pagesFr
                 {
                     switch (SortComboBox.SelectedIndex)
                     {
-                        case 1:
+                        case 1:   
                             products = products.OrderBy(x => x.CountOnSklad ?? 0).ToList();
                             break;
-
                         case 2:
                             products = products.OrderByDescending(x => x.CountOnSklad ?? 0).ToList();
                             break;
-
                     }
                 }
 
@@ -201,6 +199,12 @@ namespace testDemoYP.pagesFr
                     Description = p.Description,
                     Photo = p.Photo,
                     OriginalProduct = p,
+
+
+                    OriginalPrice = p.Price,
+                    DiscountedPrice = p.Sale != null ? Math.Round((double)(p.Price * (1 - p.Sale.Value / 100)), 2) : (double?)null,
+                    HasDiscount = p.Sale != null && p.Sale > 0,
+
                     BackgroundColor = (p.Sale != null && p.Sale > 15) ?
                         new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57")) :
                         new SolidColorBrush(Colors.White)

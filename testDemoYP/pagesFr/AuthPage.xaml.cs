@@ -71,7 +71,9 @@ namespace testDemoYP.pagesFr
 
         private void GuestBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ProductPage(false, false, false, false, "Гость", "Гость"));
+            string userName = "Гость";
+            string roleName = "Гость";
+            NavigationService.Navigate(new ProductsPage(false, false, false, false, userName, roleName));
         }
     }
 }
