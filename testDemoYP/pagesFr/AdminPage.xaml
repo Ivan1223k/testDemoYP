@@ -11,11 +11,9 @@
       Background="{StaticResource PrimaryBackground}">
 
     <Grid Background="{StaticResource PrimaryBackground}">
-        <!-- Кнопка выхода в правом верхнем углу -->
 
 
         <TabControl Background="{StaticResource PrimaryBackground}">
-            <!-- Остальной код без изменений -->
             <TabItem Header="Товары" Background="{StaticResource SecondaryBackground}">
                 <Grid Background="{StaticResource PrimaryBackground}">
                     <Grid.RowDefinitions>

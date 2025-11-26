@@ -11,43 +11,54 @@
       Background="{StaticResource PrimaryBackground}">
 
     <Grid Margin="10" Background="{StaticResource PrimaryBackground}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Название:" Margin="0,0,0,5"/>
-        <ComboBox x:Name="TitleComboBox" Grid.Row="1" DisplayMemberPath="TitleName" SelectedValuePath="ID_Title" Margin="0,0,0,10" Background="White"/>
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <TextBlock Text="Название:" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="TitleComboBox" DisplayMemberPath="TitleName" SelectedValuePath="ID_Title" Margin="0,0,0,10" Background="White"/>
 
-        <TextBlock Grid.Row="2" Text="Единица измерения:" Margin="0,0,0,5"/>
-        <TextBox x:Name="UnitTextBox" Grid.Row="3" Margin="0,0,0,10" Background="White"/>
+                        <TextBlock Text="Категория:" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="CategoryComboBox" DisplayMemberPath="CategoryName" SelectedValuePath="ID_Category" Margin="0,0,0,10" Background="White"/>
 
-        <TextBlock Grid.Row="4" Text="Цена:" Margin="0,0,0,5"/>
-        <TextBox x:Name="PriceTextBox" Grid.Row="5" Margin="0,0,0,10" Background="White"/>
+                        <TextBlock Text="Производитель:" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="ManufacturerComboBox" DisplayMemberPath="ManufacturerName" SelectedValuePath="ID_Manufacturer" Margin="0,0,0,10" Background="White"/>
 
-        <TextBlock Grid.Row="6" Text="Поставщик:" Margin="0,0,0,5"/>
-        <ComboBox x:Name="SupplierComboBox" Grid.Row="7" DisplayMemberPath="SupplierName" SelectedValuePath="ID_Supplier" Margin="0,0,0,10" Background="White"/>
+                        <TextBlock Text="Поставщик:" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="SupplierComboBox" DisplayMemberPath="SupplierName" SelectedValuePath="ID_Supplier" Margin="0,0,0,10" Background="White"/>
 
-        <TextBlock Grid.Row="8" Text="Производитель:" Margin="0,0,0,5"/>
-        <ComboBox x:Name="ManufacturerComboBox" Grid.Row="9" DisplayMemberPath="ManufacturerName" SelectedValuePath="ID_Manufacturer" Margin="0,0,0,10" Background="White"/>
+                        <TextBlock Text="Цена:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="PriceTextBox" Margin="0,0,0,10" Background="White"/>
 
-        <TextBlock Grid.Row="10" Text="Категория:" Margin="0,0,0,5"/>
-        <ComboBox x:Name="CategoryComboBox" Grid.Row="11" SelectedValuePath="ID_Category" DisplayMemberPath="CategoryName" Margin="0,0,0,10" Background="White"/>
+                        <TextBlock Text="Скидка (%):" Margin="0,0,0,5"/>
+                        <TextBox x:Name="SaleTextBox" Margin="0,0,0,10" Background="White"/>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="12" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Сохранить" Click="SaveButton_Click" Margin="0,0,10,0" Width="80" Background="{StaticResource AccentBrush}"/>
-            <Button Content="Отмена" Click="CancelButton_Click" Width="80" Background="{StaticResource SecondaryBackground}"/>
-        </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                        <TextBlock Text="Единица измерения:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="UnitTextBox" Margin="0,0,0,10" Background="White"/>
+
+                        <TextBlock Text="Количество на складе:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="CountTextBox" Margin="0,0,0,10" Background="White"/>
+
+                        <TextBlock Text="Описание:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="DescriptionTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,10" Background="White"/>
+
+                        <TextBlock Text="Фото (URL):" Margin="0,0,0,5"/>
+                        <TextBox x:Name="PhotoTextBox" Text="photo/default.png" Margin="0,0,0,20" Background="White"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button Content="Сохранить" Click="SaveButton_Click" Margin="0,0,10,0" Width="100" Height="35" Background="{StaticResource AccentBrush}"/>
+                    <Button Content="Отмена" Click="CancelButton_Click" Width="100" Height="35" Background="{StaticResource SecondaryBackground}"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

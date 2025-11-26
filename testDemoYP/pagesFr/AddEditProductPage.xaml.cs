@@ -55,6 +55,10 @@ namespace testDemoYP.pagesFr
                 SupplierComboBox.SelectedValue = _currentProduct.Supplier;
                 ManufacturerComboBox.SelectedValue = _currentProduct.Manufacturer;
                 CategoryComboBox.SelectedValue = _currentProduct.Category;
+                SaleTextBox.Text = _currentProduct.Sale?.ToString();
+                CountTextBox.Text = _currentProduct.CountOnSklad?.ToString();
+                DescriptionTextBox.Text = _currentProduct.Description;
+                PhotoTextBox.Text = _currentProduct.Photo;
             }
         }
 
@@ -62,20 +66,64 @@ namespace testDemoYP.pagesFr
         {
             try
             {
-                if (TitleComboBox.SelectedItem == null || string.IsNullOrWhiteSpace(UnitTextBox.Text) ||
-                    string.IsNullOrWhiteSpace(PriceTextBox.Text) || SupplierComboBox.SelectedItem == null ||
-                    ManufacturerComboBox.SelectedItem == null || CategoryComboBox.SelectedItem == null)
+                if (TitleComboBox.SelectedItem == null)
                 {
-                    MessageBox.Show("Заполните все поля");
+                    MessageBox.Show("Выберите название");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(UnitTextBox.Text))
+                {
+                    MessageBox.Show("Введите единицу измерения");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(PriceTextBox.Text) || !double.TryParse(PriceTextBox.Text, out double price))
+                {
+                    MessageBox.Show("Введите корректную цену");
+                    return;
+                }
+                if (SupplierComboBox.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите поставщика");
+                    return;
+                }
+                if (ManufacturerComboBox.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите производителя");
+                    return;
+                }
+                if (CategoryComboBox.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите категорию");
                     return;
                 }
 
-                _currentProduct.Title = ((Title)TitleComboBox.SelectedItem).ID_Title;
+                _currentProduct.Title = (int)TitleComboBox.SelectedValue;
                 _currentProduct.Edinica = UnitTextBox.Text;
-                _currentProduct.Price = double.Parse(PriceTextBox.Text);
-                _currentProduct.Supplier = ((Postavchick)SupplierComboBox.SelectedItem).ID_Supplier;
-                _currentProduct.Manufacturer = ((Manufacturer)ManufacturerComboBox.SelectedItem).ID_Manufacturer;
-                _currentProduct.Category = ((Category)CategoryComboBox.SelectedItem).ID_Category;
+                _currentProduct.Price = price;
+                _currentProduct.Supplier = (int)SupplierComboBox.SelectedValue;
+                _currentProduct.Manufacturer = (int)ManufacturerComboBox.SelectedValue;
+                _currentProduct.Category = (int)CategoryComboBox.SelectedValue;
+
+                if (!string.IsNullOrWhiteSpace(SaleTextBox.Text) && double.TryParse(SaleTextBox.Text, out double sale))
+                {
+                    _currentProduct.Sale = sale;
+                }
+                else
+                {
+                    _currentProduct.Sale = null;
+                }
+
+                if (!string.IsNullOrWhiteSpace(CountTextBox.Text) && int.TryParse(CountTextBox.Text, out int count))
+                {
+                    _currentProduct.CountOnSklad = count;
+                }
+                else
+                {
+                    _currentProduct.CountOnSklad = null;
+                }
+
+                _currentProduct.Description = DescriptionTextBox.Text;
+                _currentProduct.Photo = PhotoTextBox.Text;
 
                 if (_currentProduct.ID_Tovar == 0)
                 {

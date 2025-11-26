@@ -39,17 +39,19 @@ namespace testDemoYP.pagesFr
 
                 if (userRole != null)
                 {
+                    string userName = $"{user.LastName} {user.FirstName} {user.Patronymic}";
+                    string roleName = userRole.Role_Name;
+
                     switch (userRole.Role_Name)
                     {
-
                         case "Авторизированный клиент":
-                            NavigationService.Navigate(new ProductsPage(false, false, false));
+                            NavigationService.Navigate(new ProductsPage(false, false, false, false, userName, roleName));
                             break;
                         case "Менеджер":
-                            NavigationService.Navigate(new ProductsPage(true, true, true));
+                            NavigationService.Navigate(new ProductsPage(true, true, true, false, userName, roleName));
                             break;
                         case "Администратор":
-                            NavigationService.Navigate(new AdminPage());
+                            NavigationService.Navigate(new AdminPage(userName, roleName));
                             break;
                         default:
                             MessageBox.Show($"Неизвестная роль пользователя: {userRole.Role_Name}");
@@ -69,7 +71,7 @@ namespace testDemoYP.pagesFr
 
         private void GuestBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ProductsPage(false, false, false));
+            NavigationService.Navigate(new ProductPage(false, false, false, false, "Гость", "Гость"));
         }
     }
 }

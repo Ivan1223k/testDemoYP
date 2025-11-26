@@ -4,24 +4,27 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:testDemoYP.pagesFr"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d"    
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Товары"      
       FontSize="14"
       FontFamily="TimesNewRoman"
       Background="{StaticResource PrimaryBackground}">
-    
 
-    
-    
+
     <Grid Margin="10" Background="{StaticResource PrimaryBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-     
+        <Border Grid.Row="0" Background="{StaticResource AccentBrush}" CornerRadius="5" Padding="10" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10">
+            <StackPanel Orientation="Vertical">
+                <TextBlock x:Name="UserNameText" Text="" FontWeight="Bold" FontSize="12"/>
+                <TextBlock x:Name="UserRoleText" Text="" FontSize="11"/>
+            </StackPanel>
+        </Border>
 
         <Border x:Name="ControlsPanel" Grid.Row="0" Background="{StaticResource SecondaryBackground}" CornerRadius="5" Padding="15" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -34,17 +37,23 @@
                     <TextBlock Text="Сортировка" FontSize="12" Margin="0,0,0,5"/>
                     <ComboBox x:Name="SortComboBox" Width="150" Height="30" SelectionChanged="SortComboBox_SelectionChanged" SelectedIndex="0">
                         <ComboBoxItem Content="Без сортировки"/>
-                        <ComboBoxItem Content="По названию (А-Я)"/>
-                        <ComboBoxItem Content="По названию (Я-А)"/>
-                        <ComboBoxItem Content="По цене (возр.)"/>
-                        <ComboBoxItem Content="По цене (убыв.)"/>
+                        <ComboBoxItem Content="По количеству (возр.)"/>
+                        <ComboBoxItem Content="По количеству (убыв.)"/>
                     </ComboBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,0,15,0">
                     <TextBlock Text="Категория" FontSize="12" Margin="0,0,0,5"/>
                     <ComboBox x:Name="FilterComboBox" Width="150" Height="30" SelectionChanged="FilterComboBox_SelectionChanged" SelectedIndex="0">
-                        <ComboBoxItem Content="Без сортировки"/>
+                        <ComboBoxItem Content="Все категории"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="0,0,15,0" Visibility="Hidden">
+                    <TextBlock Text="Скидка" FontSize="12" Margin="0,0,0,5" />
+                    <ComboBox x:Name="DiscountFilterComboBox" Width="150" Height="30" SelectionChanged="DiscountFilterComboBox_SelectionChanged" SelectedIndex="0">
+                        <ComboBoxItem Content="Все товары"/>
+                        <ComboBoxItem Content="Скидка > 15%"/>
                     </ComboBox>
                 </StackPanel>
 
@@ -57,14 +66,13 @@
 
             </StackPanel>
         </Border>
-        
-        
+
         <ListView Name="ProductsListView" Grid.Row="1" HorizontalContentAlignment="Stretch" 
           ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource PrimaryBackground}"
           BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="LightGray" BorderThickness="1" Background="{StaticResource PrimaryBackground}" Margin="2" Padding="10" CornerRadius="5">
+                    <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="10" CornerRadius="5" Background="{Binding BackgroundColor}">
                         <Grid MinWidth="280">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -72,7 +80,6 @@
                                 <ColumnDefinition Width="0.35*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Фото -->
                             <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="0,0,10,0" Background="White" Height="150">
                                 <Image Stretch="Uniform">
                                     <Image.Source>
@@ -85,7 +92,6 @@
                                 </Image>
                             </Border>
 
-                            <!-- Информация -->
                             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,0,10,0">
                                 <TextBlock Text="{Binding Category1.CategoryName, StringFormat={}Категория товара | {0}}" FontSize="12" Margin="0,0,0,2"/>
                                 <TextBlock Text="{Binding Title1.TitleName}" FontSize="14" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,5"/>
@@ -97,27 +103,13 @@
                                 <TextBlock Text="{Binding CountOnSklad, StringFormat={}Количество на складе: {0}}" FontSize="11"/>
                             </StackPanel>
 
-                            <Border Grid.Column="2" Padding="5" CornerRadius="3" VerticalAlignment="Center">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Sale}">
-                                                <DataTrigger.Value>
-                                                    <sys:Decimal>15</sys:Decimal>
-                                                </DataTrigger.Value>
-                                                <Setter Property="Background" Value="#2E8B57"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock Text="{Binding Sale, StringFormat={}Действующая скидка: {0}%}" FontSize="11" FontWeight="SemiBold" Foreground="DarkRed" TextAlignment="Center"/>
+                            <Border Grid.Column="2" Padding="5" CornerRadius="3" VerticalAlignment="Center" Background="Transparent">
+                                <TextBlock Text="{Binding Sale, StringFormat={}Скидка: {0}%}" FontSize="11" FontWeight="SemiBold" Foreground="DarkRed" TextAlignment="Center"/>
                             </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
     </Grid>
 </Page>

@@ -23,7 +23,6 @@ namespace testDemoYP.pagesFr
         public AdminPage()
         {
             InitializeComponent();
-            // Передаем true в isAdminMode для скрытия кнопки выхода в Border
             ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
             LoadOrders();
         }
@@ -32,14 +31,20 @@ namespace testDemoYP.pagesFr
         {
             NavigationService.Navigate(new AuthPage());
         }
-
         private void LogoutBtn_Click1(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AuthPage());
         }
 
+        private void LoadOrders()
+        {
+            var orders = Entities.GetContext().Order
+                .Include("Status1")
+                .Include("Address")
+                .ToList();
+            OrdersDataGrid.ItemsSource = orders;
+        }
 
-        // В методах редактирования/добавления также передаем true для isAdminMode
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
             ProductsFrame.Navigate(new AddEditProductPage(null));
@@ -48,26 +53,26 @@ namespace testDemoYP.pagesFr
         private void EditProduct_Click(object sender, RoutedEventArgs e)
         {
             var productsPage = ProductsFrame.Content as ProductsPage;
-            if (productsPage != null && productsPage.ProductsListView.SelectedItem != null)
+            if (productsPage != null)
             {
-                Tovar selectedProduct = productsPage.ProductsListView.SelectedItem as Tovar;
+                Tovar selectedProduct = productsPage.GetSelectedProduct();
                 if (selectedProduct != null)
                 {
                     ProductsFrame.Navigate(new AddEditProductPage(selectedProduct));
                 }
-            }
-            else
-            {
-                MessageBox.Show("Выберите товар для редактирования");
+                else
+                {
+                    MessageBox.Show("Выберите товар для редактирования");
+                }
             }
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
             var productsPage = ProductsFrame.Content as ProductsPage;
-            if (productsPage != null && productsPage.ProductsListView.SelectedItem != null)
+            if (productsPage != null)
             {
-                Tovar selectedProduct = productsPage.ProductsListView.SelectedItem as Tovar;
+                Tovar selectedProduct = productsPage.GetSelectedProduct();
                 if (selectedProduct != null)
                 {
                     var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{selectedProduct.Title1.TitleName}'?",
@@ -79,7 +84,6 @@ namespace testDemoYP.pagesFr
                         {
                             Entities.GetContext().Tovar.Remove(selectedProduct);
                             Entities.GetContext().SaveChanges();
-
                             ProductsFrame.Navigate(new ProductsPage(true, true, true, true));
                             MessageBox.Show("Товар успешно удален");
                         }
@@ -89,20 +93,11 @@ namespace testDemoYP.pagesFr
                         }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Выберите товар для удаления");
+                }
             }
-            else
-            {
-                MessageBox.Show("Выберите товар для удаления");
-            }
-        }
-
-        private void LoadOrders()
-        {
-            var orders = Entities.GetContext().Order
-                .Include("Status1")
-                .Include("Address")
-                .ToList();
-            OrdersDataGrid.ItemsSource = orders;
         }
 
         private void AddOrder_Click(object sender, RoutedEventArgs e)

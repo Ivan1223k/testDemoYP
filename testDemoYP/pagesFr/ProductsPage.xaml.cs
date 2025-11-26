@@ -25,21 +25,33 @@ namespace testDemoYP.pagesFr
         private bool _enableSort;
         private bool _enableFilter;
         private bool _isAdminMode;
+        private string _userName;
+        private string _userRole;
+        private List<Tovar> _allProducts;
         private List<Tovar> _currentProducts;
 
-        public ProductsPage(bool enableSearch, bool enableSort, bool enableFilter, bool isAdminMode = false)
+        public ProductsPage(bool enableSearch, bool enableSort, bool enableFilter, bool isAdminMode = false, string userName = "", string userRole = "")
         {
             InitializeComponent();
             _enableSearch = enableSearch;
             _enableSort = enableSort;
             _enableFilter = enableFilter;
             _isAdminMode = isAdminMode;
+            _userName = userName;
+            _userRole = userRole;
 
             InitializeControls();
             LoadProducts();
+            DisplayUserInfo();
         }
-    
 
+        private void DisplayUserInfo()
+        {
+            UserNameText.Text = _userName;
+            UserRoleText.Text = _userRole;
+        }
+
+        // Остальной код без изменений...
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AuthPage());
@@ -59,24 +71,24 @@ namespace testDemoYP.pagesFr
                 SearchTextBox.IsEnabled = false;
                 SortComboBox.IsEnabled = false;
                 FilterComboBox.IsEnabled = false;
+                DiscountFilterComboBox.IsEnabled = false;
                 ClearFiltersButton.IsEnabled = false;
 
-                // Делаем элементы полупрозрачными для визуального обозначения блокировки
                 SearchTextBox.Opacity = 0.5;
                 SortComboBox.Opacity = 0.5;
                 FilterComboBox.Opacity = 0.5;
+                DiscountFilterComboBox.Opacity = 0.5;
                 ClearFiltersButton.Opacity = 0.5;
 
-                // Добавляем подсказку
                 SearchTextBox.ToolTip = "Функция поиска недоступна для вашей роли";
                 SortComboBox.ToolTip = "Функция сортировки недоступна для вашей роли";
                 FilterComboBox.ToolTip = "Функция фильтрации недоступна для вашей роли";
+                DiscountFilterComboBox.ToolTip = "Функция фильтрации по скидке недоступна для вашей роли";
                 ClearFiltersButton.ToolTip = "Функция очистки фильтров недоступна для вашей роли";
 
                 return;
             }
 
-            // Для менеджера/админа настраиваем доступные функции
             if (!_enableSearch)
             {
                 SearchTextBox.IsEnabled = false;
@@ -96,12 +108,15 @@ namespace testDemoYP.pagesFr
                 FilterComboBox.IsEnabled = false;
                 FilterComboBox.Opacity = 0.5;
                 FilterComboBox.ToolTip = "Функция фильтрации недоступна";
+                DiscountFilterComboBox.IsEnabled = false;
+                DiscountFilterComboBox.Opacity = 0.5;
+                DiscountFilterComboBox.ToolTip = "Функция фильтрации по скидке недоступна";
             }
 
-            // Заполняем фильтры категорий (только если разрешено)
             if (_enableFilter)
             {
                 var categories = Entities.GetContext().Category.ToList();
+                FilterComboBox.Items.Clear();
                 FilterComboBox.Items.Add("Все категории");
                 foreach (var category in categories)
                 {
@@ -111,21 +126,17 @@ namespace testDemoYP.pagesFr
             }
             else
             {
+                FilterComboBox.Items.Clear();
                 FilterComboBox.Items.Add("Все категории");
                 FilterComboBox.SelectedIndex = 0;
-            }
-
-            // Устанавливаем сортировку по умолчанию (только если разрешено)
-            if (_enableSort)
-            {
-                SortComboBox.SelectedIndex = 0;
             }
         }
 
         // Остальные методы без изменений...
         private void LoadProducts()
         {
-            _currentProducts = Entities.GetContext().Tovar.ToList();
+            _allProducts = Entities.GetContext().Tovar.ToList();
+            _currentProducts = _allProducts.ToList();
             UpdateProducts();
         }
 
@@ -138,46 +149,78 @@ namespace testDemoYP.pagesFr
 
             try
             {
-                List<Tovar> products = _currentProducts.ToList();
+                List<Tovar> products = _allProducts.ToList();
 
-                // Поиск по названию (только если разрешено)
                 if (_enableSearch && !string.IsNullOrWhiteSpace(SearchTextBox.Text))
                 {
                     products = products.Where(x => x.Title1.TitleName.ToLower().Contains(SearchTextBox.Text.ToLower())).ToList();
                 }
 
-                // Фильтрация по категории (только если разрешено)
                 if (_enableFilter && FilterComboBox.SelectedIndex > 0)
                 {
                     string selectedCategory = FilterComboBox.SelectedItem.ToString();
                     products = products.Where(x => x.Category1.CategoryName == selectedCategory).ToList();
                 }
 
-                // Сортировка (только если разрешено)
+                if (_enableFilter && DiscountFilterComboBox.SelectedIndex > 0)
+                {
+                    if (DiscountFilterComboBox.SelectedItem.ToString() == "Скидка > 15%")
+                    {
+                        products = products.Where(x => x.Sale != null && x.Sale > 15).ToList();
+                    }
+                }
+
+                _currentProducts = products;
+
                 if (_enableSort)
                 {
                     switch (SortComboBox.SelectedIndex)
                     {
                         case 1:
-                            products = products.OrderBy(x => x.Title1.TitleName).ToList();
+                            products = products.OrderBy(x => x.CountOnSklad ?? 0).ToList();
                             break;
+
                         case 2:
-                            products = products.OrderByDescending(x => x.Title1.TitleName).ToList();
+                            products = products.OrderByDescending(x => x.CountOnSklad ?? 0).ToList();
                             break;
-                        case 3:
-                            products = products.OrderBy(x => x.Price).ToList();
-                            break;
-                        case 4:
-                            products = products.OrderByDescending(x => x.Price).ToList();
-                            break;
+
                     }
                 }
 
-                ProductsListView.ItemsSource = products;
+                var productsWithColor = products.Select(p => new
+                {
+                    ID_Tovar = p.ID_Tovar,
+                    Title1 = p.Title1,
+                    Category1 = p.Category1,
+                    Manufacturer1 = p.Manufacturer1,
+                    Postavchick = p.Postavchick,
+                    Price = p.Price,
+                    Sale = p.Sale,
+                    Edinica = p.Edinica,
+                    CountOnSklad = p.CountOnSklad,
+                    Description = p.Description,
+                    Photo = p.Photo,
+                    OriginalProduct = p,
+                    BackgroundColor = (p.Sale != null && p.Sale > 15) ?
+                        new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57")) :
+                        new SolidColorBrush(Colors.White)
+                }).ToList();
+
+                ProductsListView.ItemsSource = productsWithColor;
             }
             catch (Exception)
             {
             }
+        }
+
+        public Tovar GetSelectedProduct()
+        {
+            if (ProductsListView.SelectedItem != null)
+            {
+                dynamic selectedItem = ProductsListView.SelectedItem;
+                return selectedItem.OriginalProduct;
+            }
+            return null;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -195,11 +238,18 @@ namespace testDemoYP.pagesFr
             if (_enableFilter) UpdateProducts();
         }
 
+        private void DiscountFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_enableFilter) UpdateProducts();
+        }
+
         private void ClearFiltersButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_enableSearch) SearchTextBox.Text = "";
-            if (_enableSort) SortComboBox.SelectedIndex = 0;
-            if (_enableFilter) FilterComboBox.SelectedIndex = 0;
+            SearchTextBox.Text = "";
+            SortComboBox.SelectedIndex = 0;
+            FilterComboBox.SelectedIndex = 0;
+            DiscountFilterComboBox.SelectedIndex = 0;
+            UpdateProducts();
         }
     }
 }

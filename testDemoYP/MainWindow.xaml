@@ -7,7 +7,7 @@
         mc:Ignorable="d" 
         WindowStartupLocation="CenterScreen"
         Title="Магазин обуви - ООО 'Обувь'" 
-        Height="600" Width="900"
+        Height="700" Width="1200"
         FontFamily="Times New Roman"
         FontSize="14">
 
