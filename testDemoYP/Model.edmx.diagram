@@ -4,33 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="aa0867f1aa52431cb7e789c602f9ac8d" Name="Diagram1">
-        <EntityTypeShape EntityType="masterModel.Address" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Category" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Manufacturer" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Order" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Postavchick" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Roles" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Sostav" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Status" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Title" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Tovar" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.User_Order" Width="1.5" PointX="9.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.User_Roles" Width="1.5" PointX="9.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="masterModel.Users" Width="1.5" PointX="7.5" PointY="6.625" IsExpanded="true" />
-        <AssociationConnector Association="masterModel.FK_Order_Address" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Tovar_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Tovar_Manufacturer" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Order_Sostav" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Order_Status" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_User_Order_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Tovar_Postavchick" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_User_Roles_Roles" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Sostav_Tovar" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_Tovar_Title" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_User_Order_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_User_Roles_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="masterModel.FK_User_Roles_Users1" ManuallyRouted="false" />
+      <Diagram DiagramId="8b56691090cb4fc08398a0a9551e7cae" Name="Diagram1">
+        <EntityTypeShape EntityType="ImportDEModel.Address" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Category" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Manufacturer" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Order" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Postavchick" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Roles" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Sostav" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Status" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Title" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Tovar" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.User_Order" Width="1.5" PointX="9.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.User_Roles" Width="1.5" PointX="9.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImportDEModel.Users" Width="1.5" PointX="7.5" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="ImportDEModel.FK_Order_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Tovar_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Tovar_Manufacturer" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Order_Sostav" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Order_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_User_Order_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Tovar_Postavchick" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_User_Roles_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Sostav_Tovar" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_Tovar_Title" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_User_Order_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_User_Roles_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ImportDEModel.FK_User_Roles_Users1" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

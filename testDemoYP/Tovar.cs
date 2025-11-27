@@ -38,5 +38,26 @@ namespace testDemoYP
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sostav> Sostav { get; set; }
         public virtual Title Title1 { get; set; }
+
+        public double OriginalPriceValue
+        {
+            get { return Price ?? 0; }
+        }
+
+        public bool HasDiscount
+        {
+            get { return Sale != null && Sale > 0; }
+        }
+
+        public double DiscountedPriceValue
+        {
+            get
+            {
+                if (HasDiscount)
+                    return Math.Round((Price ?? 0) * (1 - Sale.Value / 100), 2);
+
+                return Price ?? 0;
+            }
+        }
     }
 }

@@ -210,7 +210,7 @@ namespace testDemoYP.pagesFr
                         new SolidColorBrush(Colors.White)
                 }).ToList();
 
-                ProductsListView.ItemsSource = productsWithColor;
+                ProductsListView.ItemsSource = products;
             }
             catch (Exception)
             {
