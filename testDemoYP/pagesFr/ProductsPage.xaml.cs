@@ -66,7 +66,6 @@ namespace testDemoYP.pagesFr
 
         private void InitializeControls()
         {
-            // Для клиента и гостя блокируем доступ к фильтрам, но оставляем панель видимой
             if (!_enableSearch && !_enableSort && !_enableFilter)
             {
                 SearchTextBox.IsEnabled = false;
@@ -166,7 +165,7 @@ namespace testDemoYP.pagesFr
                 {
                     if (DiscountFilterComboBox.SelectedItem.ToString() == "Скидка > 15%")
                     {
-                        products = products.Where(x => x.Sale != null && x.Sale > 15).ToList();
+                        products = products.Where(x => x.Sale != null && x.Sale > 14).ToList();
                     }
                 }
 
@@ -200,17 +199,16 @@ namespace testDemoYP.pagesFr
                     Photo = p.Photo,
                     OriginalProduct = p,
 
+                    OriginalPriceValue = p.OriginalPriceValue,
+                    HasDiscount = p.HasDiscount,
+                    DiscountedPriceValue = p.DiscountedPriceValue,
 
-                    OriginalPrice = p.Price,
-                    DiscountedPrice = p.Sale != null ? Math.Round((double)(p.Price * (1 - p.Sale.Value / 100)), 2) : (double?)null,
-                    HasDiscount = p.Sale != null && p.Sale > 0,
-
-                    BackgroundColor = (p.Sale != null && p.Sale > 15) ?
+                    BackgroundColor = (p.Sale != null && p.Sale > 14) ?
                         new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57")) :
                         new SolidColorBrush(Colors.White)
                 }).ToList();
 
-                ProductsListView.ItemsSource = products;
+                ProductsListView.ItemsSource = productsWithColor;
             }
             catch (Exception)
             {
