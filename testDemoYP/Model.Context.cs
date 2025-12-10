@@ -19,7 +19,7 @@ namespace testDemoYP
             : base("name=Entities")
         {
         }
-
+    
         private static Entities _context;
 
         public static Entities GetContext()
@@ -43,7 +43,6 @@ namespace testDemoYP
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Sostav> Sostav { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Title> Title { get; set; }
         public virtual DbSet<Tovar> Tovar { get; set; }
         public virtual DbSet<User_Order> User_Order { get; set; }

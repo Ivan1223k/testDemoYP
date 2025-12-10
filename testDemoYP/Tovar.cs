@@ -46,17 +46,21 @@ namespace testDemoYP
 
         public bool HasDiscount
         {
-            get { return Sale != null && Sale > 0; }
+
+            get
+            {
+                return Sale != null && Sale > 0.001;
+            }
         }
 
         public double DiscountedPriceValue
         {
             get
             {
-                if (HasDiscount)
+                if (Sale != null && Sale > 0.001) 
                     return Math.Round((Price ?? 0) * (1 - Sale.Value / 100), 2);
 
-                return Price ?? 0;
+                return 0;
             }
         }
     }

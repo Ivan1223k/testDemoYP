@@ -44,6 +44,7 @@ namespace testDemoYP.pagesFr
         {
             NavigationService.Navigate(new AuthPage());
         }
+
         private void LogoutBtn_Click1(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AuthPage());
@@ -54,8 +55,9 @@ namespace testDemoYP.pagesFr
             var orders = Entities.GetContext().Order
                 .Include("Status1")
                 .Include("Address")
+                .Include("Sostav")
                 .ToList();
-            OrdersDataGrid.ItemsSource = orders;
+            OrdersListView.ItemsSource = orders;
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
@@ -63,22 +65,6 @@ namespace testDemoYP.pagesFr
             ProductsFrame.Navigate(new AddEditProductPage(null));
         }
 
-        private void EditProduct_Click(object sender, RoutedEventArgs e)
-        {
-            var productsPage = ProductsFrame.Content as ProductsPage;
-            if (productsPage != null)
-            {
-                Tovar selectedProduct = productsPage.GetSelectedProduct();
-                if (selectedProduct != null)
-                {
-                    ProductsFrame.Navigate(new AddEditProductPage(selectedProduct));
-                }
-                else
-                {
-                    MessageBox.Show("Выберите товар для редактирования");
-                }
-            }
-        }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
@@ -97,6 +83,7 @@ namespace testDemoYP.pagesFr
                         {
                             Entities.GetContext().Tovar.Remove(selectedProduct);
                             Entities.GetContext().SaveChanges();
+                            // Обновляем страницу товаров
                             ProductsFrame.Navigate(new ProductsPage(true, true, true, true, _userName, _userRole));
                             MessageBox.Show("Товар успешно удален");
                         }
@@ -118,27 +105,25 @@ namespace testDemoYP.pagesFr
             NavigationService.Navigate(new AddEditOrderPage(null));
         }
 
-        private void EditOrder_Click(object sender, RoutedEventArgs e)
+        // Метод для обработки двойного клика по элементу списка заказов
+        private void OrdersListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem != null)
+            if (OrdersListView.SelectedItem != null)
             {
-                Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
+                Order selectedOrder = OrdersListView.SelectedItem as Order;
                 if (selectedOrder != null)
                 {
                     NavigationService.Navigate(new AddEditOrderPage(selectedOrder));
                 }
             }
-            else
-            {
-                MessageBox.Show("Выберите заказ для редактирования");
-            }
         }
+
 
         private void DeleteOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem != null)
+            if (OrdersListView.SelectedItem != null)
             {
-                Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
+                Order selectedOrder = OrdersListView.SelectedItem as Order;
                 if (selectedOrder != null)
                 {
                     var result = MessageBox.Show($"Вы уверены, что хотите удалить заказ №{selectedOrder.ID_order}?",

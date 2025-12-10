@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище ImportDEModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -70,16 +70,6 @@
           </Key>
           <Property Name="StatusName" Type="nvarchar" MaxLength="255" />
           <Property Name="ID_Status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Title">
           <Key>
@@ -288,7 +278,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище ImportDEModelContainer">
+        <EntityContainer Name="Хранилище ModelContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
@@ -297,7 +287,6 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sostav" EntityType="Self.Sostav" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tovar" EntityType="Self.Tovar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Order" EntityType="Self.User_Order" Schema="dbo" store:Type="Tables" />
@@ -360,7 +349,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ImportDEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -438,16 +427,6 @@
           <Property Name="StatusName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ID_Status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Order" Relationship="Self.FK_Order_Status" FromRole="Status" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Title">
           <Key>
@@ -679,7 +658,6 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Sostav" EntityType="Self.Sostav" />
           <EntitySet Name="Status" EntityType="Self.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Title" EntityType="Self.Title" />
           <EntitySet Name="Tovar" EntityType="Self.Tovar" />
           <EntitySet Name="User_Order" EntityType="Self.User_Order" />
@@ -743,9 +721,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ImportDEModelContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Address">
-            <EntityTypeMapping TypeName="ImportDEModel.Address">
+            <EntityTypeMapping TypeName="Model.Address">
               <MappingFragment StoreEntitySet="Address">
                 <ScalarProperty Name="PostalIndex" ColumnName="PostalIndex" />
                 <ScalarProperty Name="City" ColumnName="City" />
@@ -756,7 +734,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Category">
-            <EntityTypeMapping TypeName="ImportDEModel.Category">
+            <EntityTypeMapping TypeName="Model.Category">
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="ID_Category" ColumnName="ID_Category" />
@@ -764,7 +742,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Manufacturer">
-            <EntityTypeMapping TypeName="ImportDEModel.Manufacturer">
+            <EntityTypeMapping TypeName="Model.Manufacturer">
               <MappingFragment StoreEntitySet="Manufacturer">
                 <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
                 <ScalarProperty Name="ID_Manufacturer" ColumnName="ID_Manufacturer" />
@@ -772,7 +750,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="ImportDEModel.Order">
+            <EntityTypeMapping TypeName="Model.Order">
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="NumberSostav" ColumnName="NumberSostav" />
                 <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
@@ -785,7 +763,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Postavchick">
-            <EntityTypeMapping TypeName="ImportDEModel.Postavchick">
+            <EntityTypeMapping TypeName="Model.Postavchick">
               <MappingFragment StoreEntitySet="Postavchick">
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="ID_Supplier" ColumnName="ID_Supplier" />
@@ -793,7 +771,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="ImportDEModel.Roles">
+            <EntityTypeMapping TypeName="Model.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Role_Name" ColumnName="Role_Name" />
                 <ScalarProperty Name="ID_Role" ColumnName="ID_Role" />
@@ -801,7 +779,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sostav">
-            <EntityTypeMapping TypeName="ImportDEModel.Sostav">
+            <EntityTypeMapping TypeName="Model.Sostav">
               <MappingFragment StoreEntitySet="Sostav">
                 <ScalarProperty Name="NumberSostav" ColumnName="NumberSostav" />
                 <ScalarProperty Name="Articul" ColumnName="Articul" />
@@ -811,26 +789,15 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Status">
-            <EntityTypeMapping TypeName="ImportDEModel.Status">
+            <EntityTypeMapping TypeName="Model.Status">
               <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ImportDEModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Title">
-            <EntityTypeMapping TypeName="ImportDEModel.Title">
+            <EntityTypeMapping TypeName="Model.Title">
               <MappingFragment StoreEntitySet="Title">
                 <ScalarProperty Name="TitleName" ColumnName="TitleName" />
                 <ScalarProperty Name="ID_Title" ColumnName="ID_Title" />
@@ -838,7 +805,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tovar">
-            <EntityTypeMapping TypeName="ImportDEModel.Tovar">
+            <EntityTypeMapping TypeName="Model.Tovar">
               <MappingFragment StoreEntitySet="Tovar">
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Edinica" ColumnName="Edinica" />
@@ -855,7 +822,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User_Order">
-            <EntityTypeMapping TypeName="ImportDEModel.User_Order">
+            <EntityTypeMapping TypeName="Model.User_Order">
               <MappingFragment StoreEntitySet="User_Order">
                 <ScalarProperty Name="ID_UO" ColumnName="ID_UO" />
                 <ScalarProperty Name="ID_Order" ColumnName="ID_Order" />
@@ -864,7 +831,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User_Roles">
-            <EntityTypeMapping TypeName="ImportDEModel.User_Roles">
+            <EntityTypeMapping TypeName="Model.User_Roles">
               <MappingFragment StoreEntitySet="User_Roles">
                 <ScalarProperty Name="ID_UR" ColumnName="ID_UR" />
                 <ScalarProperty Name="ID_User" ColumnName="ID_User" />
@@ -873,7 +840,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ImportDEModel.Users">
+            <EntityTypeMapping TypeName="Model.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Login" ColumnName="Login" />

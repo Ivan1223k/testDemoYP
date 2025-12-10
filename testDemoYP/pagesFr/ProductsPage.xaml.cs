@@ -43,6 +43,8 @@ namespace testDemoYP.pagesFr
             InitializeControls();
             LoadProducts();
             DisplayUserInfo();
+
+            Loaded += ProductsPage_Loaded;
         }
 
         private void DisplayUserInfo()
@@ -72,19 +74,17 @@ namespace testDemoYP.pagesFr
                 SortComboBox.IsEnabled = false;
                 FilterComboBox.IsEnabled = false;
                 DiscountFilterComboBox.IsEnabled = false;
-                ClearFiltersButton.IsEnabled = false;
+
 
                 SearchTextBox.Opacity = 0.5;
                 SortComboBox.Opacity = 0.5;
                 FilterComboBox.Opacity = 0.5;
                 DiscountFilterComboBox.Opacity = 0.5;
-                ClearFiltersButton.Opacity = 0.5;
 
                 SearchTextBox.ToolTip = "Функция поиска недоступна для вашей роли";
                 SortComboBox.ToolTip = "Функция сортировки недоступна для вашей роли";
                 FilterComboBox.ToolTip = "Функция фильтрации недоступна для вашей роли";
                 DiscountFilterComboBox.ToolTip = "Функция фильтрации по скидке недоступна для вашей роли";
-                ClearFiltersButton.ToolTip = "Функция очистки фильтров недоступна для вашей роли";
 
                 return;
             }
@@ -131,6 +131,10 @@ namespace testDemoYP.pagesFr
                 FilterComboBox.SelectedIndex = 0;
             }
         }
+        private void ProductsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadProducts();
+        }
 
         private void LoadProducts()
         {
@@ -138,6 +142,7 @@ namespace testDemoYP.pagesFr
             _currentProducts = _allProducts.ToList();
             UpdateProducts();
         }
+
 
         private void UpdateProducts()
         {
@@ -175,7 +180,7 @@ namespace testDemoYP.pagesFr
                 {
                     switch (SortComboBox.SelectedIndex)
                     {
-                        case 1:   
+                        case 1:
                             products = products.OrderBy(x => x.CountOnSklad ?? 0).ToList();
                             break;
                         case 2:
@@ -203,9 +208,7 @@ namespace testDemoYP.pagesFr
                     HasDiscount = p.HasDiscount,
                     DiscountedPriceValue = p.DiscountedPriceValue,
 
-                    BackgroundColor = (p.Sale != null && p.Sale > 14) ?
-                        new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57")) :
-                        new SolidColorBrush(Colors.White)
+                    BackgroundColor = GetProductBackgroundColor(p)
                 }).ToList();
 
                 ProductsListView.ItemsSource = productsWithColor;
@@ -213,6 +216,20 @@ namespace testDemoYP.pagesFr
             catch (Exception)
             {
             }
+        }
+        private Brush GetProductBackgroundColor(Tovar product)
+        {
+            if (product.CountOnSklad == 0 || product.CountOnSklad == null)
+            {
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ADD8E6"));
+            }
+
+            if (product.Sale != null && product.Sale > 14)
+            {
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57"));
+            }
+
+            return new SolidColorBrush(Colors.White);
         }
 
         public Tovar GetSelectedProduct()
@@ -253,5 +270,37 @@ namespace testDemoYP.pagesFr
             DiscountFilterComboBox.SelectedIndex = 0;
             UpdateProducts();
         }
+
+        private void ProductsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!_isAdminMode)
+            {
+                MessageBox.Show("Недостаточно прав");
+                return;
+            }
+
+            Tovar selectedProduct = GetSelectedProduct();
+            if (selectedProduct != null)
+            {
+                DependencyObject parent = this;
+                Frame frame = null;
+
+                while (parent != null)
+                {
+                    if (parent is Frame)
+                    {
+                        frame = parent as Frame;
+                        break;
+                    }
+                    parent = VisualTreeHelper.GetParent(parent);
+                }
+
+                if (frame != null)
+                {
+                    frame.Navigate(new AddEditProductPage(selectedProduct));
+                }
+            }
+        }
+
     }
 }
