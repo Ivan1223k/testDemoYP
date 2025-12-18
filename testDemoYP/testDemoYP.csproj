@@ -101,6 +101,9 @@
     <Compile Include="pagesFr\AddEditProductPage.xaml.cs">
       <DependentUpon>AddEditProductPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pagesFr\AddEditProductWindow.xaml.cs">
+      <DependentUpon>AddEditProductWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pagesFr\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pagesFr\AddEditProductPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pagesFr\AddEditProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

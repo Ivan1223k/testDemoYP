@@ -275,29 +275,22 @@ namespace testDemoYP.pagesFr
         {
             if (!_isAdminMode)
             {
-                MessageBox.Show("Недостаточно прав");
+                MessageBox.Show("Недостаточно прав для редактирования");
                 return;
             }
 
             Tovar selectedProduct = GetSelectedProduct();
             if (selectedProduct != null)
             {
-                DependencyObject parent = this;
-                Frame frame = null;
+                var editWindow = new AddEditProductWindow(selectedProduct);
+                editWindow.Owner = Window.GetWindow(this);
 
-                while (parent != null)
-                {
-                    if (parent is Frame)
-                    {
-                        frame = parent as Frame;
-                        break;
-                    }
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
+                bool? result = editWindow.ShowDialog();
 
-                if (frame != null)
+                if (result == true && editWindow.IsSaved)
                 {
-                    frame.Navigate(new AddEditProductPage(selectedProduct));
+                    LoadProducts();
+                    MessageBox.Show("Изменения сохранены успешно!");
                 }
             }
         }
